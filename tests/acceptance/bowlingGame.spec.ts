@@ -7,7 +7,7 @@ describe('Bowling Game', () => {
         const MockBowlingConsole = jest.fn<BowlingConsole, []>(() => ({
             printLine: jest.fn()
         }));
-        const mockBowlingConsole = new MockBowlingConsole(); // should be mocking this
+        const mockBowlingConsole = new MockBowlingConsole();
         const game = new Game(mockBowlingConsole);
         const player1 = new Player(game);
         const message = 'Pins knocked down: 10';
@@ -17,7 +17,7 @@ describe('Bowling Game', () => {
         expect(mockBowlingConsole.printLine).toHaveBeenCalledWith(message);
     });
 
-    xit('should return total score for perfect game', () => {
+    it('should return total score for perfect game', () => {
         const bowlingConsole = new BowlingConsole();
         const game = new Game(bowlingConsole);
         const player1 = new Player(game);

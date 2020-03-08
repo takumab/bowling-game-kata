@@ -1,4 +1,3 @@
-import { Game } from '../../src/game';
 import { Player } from '../../src/player';
 import { GameInterface } from '../../src/gameInterface';
 
