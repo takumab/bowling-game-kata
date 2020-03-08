@@ -15,4 +15,17 @@ describe('Game', () => {
 
         expect(mockConsole.printLine).toHaveBeenCalledWith(message);
     });
+
+    it('should get total score for perfect game', () => {
+        const MockConsole = jest.fn<BowlingConsole, []>(() => ({
+            printLine: jest.fn()
+        }));
+        const mockConsole = new MockConsole();
+        const game = new Game(mockConsole);
+
+        const actualScore = game.score();
+        const expectedScore = 300;
+
+        expect(actualScore).toEqual(expectedScore);
+    });
 });

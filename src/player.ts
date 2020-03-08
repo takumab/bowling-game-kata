@@ -1,4 +1,3 @@
-import { Game } from './game';
 import { GameInterface } from './gameInterface';
 
 export class Player {
@@ -12,7 +11,7 @@ export class Player {
         this.game.roll(numberOfPinsKnockedDown);
     }
 
-    getScore(): void {
-        throw new Error('Not implemented yet');
+    getTotalScore(): number {
+        return this.game.score();
     }
 }

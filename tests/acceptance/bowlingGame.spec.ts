@@ -53,7 +53,7 @@ describe('Bowling Game', () => {
         player1.rollBall(10);
         player2.rollBall(10);
 
-        expect(player1.getScore()).toEqual(300);
-        expect(player2.getScore()).toEqual(300);
+        expect(player1.getTotalScore()).toEqual(300);
+        expect(player2.getTotalScore()).toEqual(300);
     });
 });
