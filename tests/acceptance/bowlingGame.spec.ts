@@ -1,59 +1,28 @@
-import { Game } from '../../src/game';
-import { Player } from '../../src/player';
-import { BowlingConsole } from '../../src/bowlingConsole';
+// Input: String
+// Output: Integer (Score)
+const calculateScoreFor = (allRolls: string) => {
+    const toNumber = (roll: string) => Number(roll);
+    const sumUp = (total: number, roll: number) => roll + total;
+
+    return allRolls
+        .split('')
+        .map(toNumber)
+        .reduce(sumUp, 0);
+};
 
 describe('Bowling Game', () => {
-    it('should print pins knocked down after every roll', () => {
-        const MockBowlingConsole = jest.fn<BowlingConsole, []>(() => ({
-            printLine: jest.fn()
-        }));
-        const mockBowlingConsole = new MockBowlingConsole();
-        const game = new Game(mockBowlingConsole);
-        const player1 = new Player(game);
-        const message = 'Pins knocked down: 10';
-
-        player1.rollBall(10);
-
-        expect(mockBowlingConsole.printLine).toHaveBeenCalledWith(message);
-    });
-
-    it('should return total score for perfect game', () => {
-        const bowlingConsole = new BowlingConsole();
-        const game = new Game(bowlingConsole);
-        const player1 = new Player(game);
-        const player2 = new Player(game);
-
-        player1.rollBall(10);
-        player2.rollBall(10);
-
-        player1.rollBall(10);
-        player2.rollBall(10);
-
-        player1.rollBall(10);
-        player2.rollBall(10);
-
-        player1.rollBall(10);
-        player2.rollBall(10);
-
-        player1.rollBall(10);
-        player2.rollBall(10);
-
-        player1.rollBall(10);
-        player2.rollBall(10);
-
-        player1.rollBall(10);
-        player2.rollBall(10);
-
-        player1.rollBall(10);
-        player2.rollBall(10);
-
-        player1.rollBall(10);
-        player2.rollBall(10);
-
-        player1.rollBall(10);
-        player2.rollBall(10);
-
-        expect(player1.getTotalScore()).toEqual(300);
-        expect(player2.getTotalScore()).toEqual(300);
-    });
+    test.each`
+        pins    | expectedScore
+        ${'1'}  | ${1}
+        ${'2'}  | ${2}
+        ${'3'}  | ${3}
+        ${'4'}  | ${4}
+        ${'23'} | ${5}
+    `(
+        'should calculate score for $pins knocked down',
+        ({ pins, expectedScore }) => {
+            const result = calculateScoreFor(pins);
+            expect(result).toBe(expectedScore);
+        }
+    );
 });

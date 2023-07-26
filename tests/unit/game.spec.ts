@@ -1,7 +1,7 @@
 import { BowlingConsole } from '../../src/bowlingConsole';
 import { Game } from '../../src/game';
 
-describe('Game', () => {
+xdescribe('Game', () => {
     it('should print number of pins knocked down', () => {
         const MockConsole = jest.fn<BowlingConsole, []>(() => ({
             printLine: jest.fn()

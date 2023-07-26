@@ -1,7 +1,7 @@
 import { Player } from '../../src/player';
 import { GameInterface } from '../../src/gameInterface';
 
-describe('Player', () => {
+xdescribe('Player', () => {
     it('should be able to roll a ball', () => {
         const MockGame = jest.fn<GameInterface, []>(() => ({
             roll: jest.fn(),

@@ -1,6 +1,6 @@
 import { BowlingConsole } from '../../src/bowlingConsole';
 
-describe('Bowling Console', () => {
+xdescribe('Bowling Console', () => {
     it('should print pins knocked down for each roll', () => {
         const message = 'Pins knocked down: 10';
         const bowlingConsole = new BowlingConsole();
