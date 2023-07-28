@@ -1,22 +1,36 @@
 // Input: String
 // Output: Integer (Score)
-// calculateScoreFor :: String --> Int
-const calculateScoreFor = (allRolls: string) => {
+// calculateFrame :: String --> Int
+const calculateFrame = (twoRolls: string) => {
     const toNumber = (roll: string): number => Number(roll);
     const sumUp = (total: number, roll: number): number => roll + total;
 
-    if (allRolls.includes('-')) {
-        return allRolls
+    if (twoRolls.includes('/')) {
+        const spare = 10 - Number(twoRolls[0]);
+        return twoRolls
+            .split('')
+            .filter((str: string) => parseInt(str))
+            .map(toNumber)
+            .reduce((total: number, num: number) => total + num, spare);
+    }
+
+    if (twoRolls.includes('-')) {
+        return twoRolls
             .split('')
             .filter((str: string) => parseInt(str))
             .map(toNumber)
             .reduce(sumUp, 0);
     }
 
-    return allRolls
+    return twoRolls
         .split('')
         .map(toNumber)
         .reduce(sumUp, 0);
+};
+
+// calculateScoreFor :: String --> Int
+const calculateScoreFor = (allRolls: string) => {
+    return calculateFrame(allRolls);
 };
 
 describe('Bowling Game', () => {
@@ -41,7 +55,17 @@ describe('Bowling Game', () => {
         ${'-2'} | ${2}
         ${'--'} | ${0}
     `('should account for pins missed', ({ pins, expectedScore }) => {
-        const result = calculateScoreFor(pins);
+        const result = calculateFrame(pins);
         expect(result).toBe(expectedScore);
+    });
+
+    test('should calculate score for a spare', () => {
+        const result = calculateFrame('5/');
+        expect(result).toBe(10);
+    });
+
+    test('should calculate score for a spare', () => {
+        const result = calculateFrame('7/');
+        expect(result).toBe(10);
     });
 });
