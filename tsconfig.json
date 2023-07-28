@@ -1,11 +1,18 @@
 {
     "compilerOptions": {
-        "target": "es5",
+        "target": "es6",
         "module": "commonjs",
         "sourceMap": true,
         "outDir": "dist",
         "strict": true,
         "esModuleInterop": true,
-        "forceConsistentCasingInFileNames": true
+        "forceConsistentCasingInFileNames": true,
+//        "lib": [
+//            "decorators",
+//            "dom",
+//            "es5",
+//            "scripthost",
+//            "es2015.collection"
+//        ]
     }
 }
