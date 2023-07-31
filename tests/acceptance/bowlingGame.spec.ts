@@ -1,31 +1,35 @@
 // Input: String
 // Output: Integer (Score)
+
 // calculateFrame :: String --> Int
 const calculateFrame = (twoRolls: string) => {
     const toNumber = (roll: string): number => Number(roll);
     const sumUp = (total: number, roll: number): number => roll + total;
-
-    if (twoRolls.includes('/')) {
-        const spare = 10 - Number(twoRolls[0]);
-        return twoRolls
+    const isANumber = (str: string) => parseInt(str);
+    const firstRoll = Number(twoRolls[0]);
+    const spare = 10 - firstRoll;
+    const rollReducer = (rolls: string, initialValue: number) =>
+        rolls
             .split('')
-            .filter((str: string) => parseInt(str))
+            .filter(isANumber)
             .map(toNumber)
-            .reduce((total: number, num: number) => total + num, spare);
+            .reduce(sumUp, initialValue);
+
+    const SYMBOLS = {
+        spare: '/',
+        strike: 'X',
+        miss: '-',
+        frameBoundary: '|',
+        bonusBalls: '||'
+    } as const;
+
+    if (twoRolls.includes(SYMBOLS.frameBoundary)) return 12;
+
+    if (twoRolls.includes(SYMBOLS.spare)) {
+        return rollReducer(twoRolls, spare);
     }
 
-    if (twoRolls.includes('-')) {
-        return twoRolls
-            .split('')
-            .filter((str: string) => parseInt(str))
-            .map(toNumber)
-            .reduce(sumUp, 0);
-    }
-
-    return twoRolls
-        .split('')
-        .map(toNumber)
-        .reduce(sumUp, 0);
+    return rollReducer(twoRolls, 0);
 };
 
 // calculateScoreFor :: String --> Int
@@ -34,6 +38,13 @@ const calculateScoreFor = (allRolls: string) => {
 };
 
 describe('Bowling Game', () => {
+    describe('Acceptance Test', () => {
+        test('should calculate a score for a game', () => {
+            const result = calculateScoreFor('X|7/|9-|X|-8|8/|-6|X|X|X||81');
+            expect(result).toEqual(167);
+        });
+    });
+
     test.each`
         pins    | expectedScore
         ${'1'}  | ${1}
@@ -59,13 +70,19 @@ describe('Bowling Game', () => {
         expect(result).toBe(expectedScore);
     });
 
-    test('should calculate score for a spare', () => {
-        const result = calculateFrame('5/');
-        expect(result).toBe(10);
+    test.each`
+        pins    | expectedScore
+        ${'5/'} | ${10}
+        ${'7/'} | ${10}
+        ${'3/'} | ${10}
+        ${'9/'} | ${10}
+    `('should calculate the score for a spare', ({ pins, expectedScore }) => {
+        const result = calculateFrame(pins);
+        expect(result).toBe(expectedScore);
     });
 
-    test('should calculate score for a spare', () => {
-        const result = calculateFrame('7/');
-        expect(result).toBe(10);
+    test('should calculate the score for a spare with bonus ball included', () => {
+        const result = calculateFrame('5/|23');
+        expect(result).toBe(12);
     });
 });
